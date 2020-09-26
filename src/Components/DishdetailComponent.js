@@ -1,27 +1,35 @@
-import React, { Component } from 'react'
-import { Card, CardBody, CardImg, CardText, CardTitle, CardImgOverlay } from 'reactstrap';
+import React from 'react'
+import { Card, CardBody, CardImg, CardText,} from 'reactstrap';
 
-class Dishdetail extends Component{
-    render(){
-        const comment = this.props.selected.comments.map((commentmap) => {
+function onrenderComments(commentmap){
+    return(
+        <div className="ml-5 mt-0 list-unstyled" key={commentmap.id}>
+                {commentmap.comment}
+                <br/>
+                <br/>
+                -- {commentmap.author} , 
+                {new Intl.DateTimeFormat('en-us',
+                 { year:'numeric', month:'short', day:'2-digit'}).format
+                    (new Date(Date.parse(commentmap.date)))}
+           </div>
+    );
+}
+
+function Dishdetail(props){     
+    const comment = props.selected.comments.map((commentmap) => {
         return(
-            <div className="ml-5 mt-0 list-unstyled" key={commentmap.id}>
-                    {commentmap.comment}
-                    <br/>
-                    <br/>
-                    -- {commentmap.author} , {commentmap.date}
-               </div> 
+            onrenderComments(commentmap)
             );
-        })
-
+        }
+        )
         return(
         <div>
             <div className="row col-12 col-md-12 mt-2">
-                <Card className="col-12 col-md-5 p-0 ml-2" key={this.props.selected.id}>
-                    <CardImg width="100%" src={this.props.selected.image} alt={this.props.selected.name}/>
+                <Card className="col-12 col-md-5 p-0 ml-2" key={props.selected.id}>
+                    <CardImg width="100%" src={props.selected.image} alt={props.selected.name}/>
                     <CardBody>
-                        <h4 > {this.props.selected.name} </h4>
-                        <CardText > {this.props.selected.description} </CardText>
+                        <h4 > {props.selected.name} </h4>
+                        <CardText > {props.selected.description} </CardText>
                     </CardBody>
                 </Card>                
                 <div className="row col-12 col-md-5">
@@ -32,5 +40,13 @@ class Dishdetail extends Component{
         </div>
             );
     }
-}
+
 export default Dishdetail;
+// componentDidMount(){
+//     console.log("dishDetail component DiD Mount invoked");
+// }
+
+// componentDidUpdate(){
+//     console.log("dishDetail component DiD Update invoked");
+// }
+// console.log("dishDetail render invoked");
